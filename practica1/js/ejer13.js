@@ -50,6 +50,6 @@ for (let i = 0; i < NUM_LANZAMIENTOS; i++) {
 }
 
 // Mostrar en la interfaz
-for (let elem of resultados) {
-  miP.innerHTML += elem + "<br>";
+for (let i = 0; i < resultados.length; i++) {
+  miP.innerHTML += "Veces que se suman " + (i+2) + ": " + resultados[i] + "<br>";
 }
