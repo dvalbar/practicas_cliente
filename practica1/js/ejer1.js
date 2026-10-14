@@ -1,1 +1,1 @@
-let miH3 = document.getElementById("miH3");
+let miP = document.getElementById("miP");
