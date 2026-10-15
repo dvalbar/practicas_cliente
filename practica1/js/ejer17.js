@@ -1,0 +1,6 @@
+
+
+/**Funciones */
+function calculaMenor() {
+    
+}
