@@ -7,9 +7,14 @@ for (let elem of miArray) {
   miP.innerHTML += elem + ", ";
 }
 
-miArray.reverse();
+invertirArray(miArray);
 
 miP.innerHTML += "<br><br>MiArray invertido:<br>";
 for (let elem of miArray) {
   miP.innerHTML += elem + ", ";
+}
+
+/**Funciones */
+function invertirArray(miArray) {
+  miArray.reverse();
 }

@@ -13,8 +13,22 @@
     <div id="documento">
         <h1>Ejercicio 19</h1>
         <p>19. Desarrolla una aplicación que permita calcular los salarios brutos y netos mensuales de los
-        trabajadores de una empresa a partir de los siguientes datos:</p>
-        <h3 id="miH3"></h3>
+            trabajadores de una empresa a partir de los siguientes datos:</p>
+        <input id="nombre" type="text" placeholder="Nombre:">
+        <input id="apellidos" type="text" placeholder="Apellidos:">
+        <input id="horas" type="number" placeholder="Horas trabajadas:"><br><br>
+
+        <input type="radio" id="maniana" name="turno" value="maniana">
+        <label for="maniana">Mañanas</label><br>
+        <input type="radio" id="tarde" name="turno" value="tarde">
+        <label for="tarde">Tardes</label><br>
+        <input type="radio" id="noche" name="turno" value="noche">
+        <label for="noche">Noches</label><br><br>
+
+        <button id="empleado">Añadir empleado</button>
+        <button id="final">Importe total</button>
+
+        <p id="miP"></p>
     </div>
 </body>
 
