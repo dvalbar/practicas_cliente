@@ -5,7 +5,7 @@ ball.style.left = "0px";
 
 let seguir = false;
 
-let intervalo = setInterval(function () {
+const intervalo = setInterval(function () {
   let izq = parseInt(ball.style.left.substring(0, ball.style.left.length - 2));
   if (seguir == false) {
     if (izq < screen.width - 100) {
@@ -23,3 +23,16 @@ let intervalo = setInterval(function () {
     }
   }
 }, 100);
+
+// A los 3 segundos se para el intervalo y la bola se queda quieta y cambia de color
+// setTimeout(function () {
+//   clearInterval(intervalo);
+//   ball.style.backgroundColor = "pink";
+// }, 3000);
+
+/*************************** */
+// Al pulsar el boton la bola se detiene y cambia de color
+document.getElementById("stop").addEventListener("click", () => {
+  clearInterval(intervalo);
+  ball.style.backgroundColor = "pink";
+});

@@ -1,9 +1,8 @@
 const h11 = document.getElementById("h11");
 
-
-
-
-
+/**WINDOW */
+h11.innerText += "Número de frames: " + window.frames.length;
+h11.innerText += "\nPrimer iframe: " + window.frames[0];
 
 
 /**SCREEN */
