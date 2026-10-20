@@ -3,17 +3,28 @@ const h11 = document.getElementById("h11");
 let usersWindow = null;
 
 document.getElementById("sendEmail").onclick = function () {
-  if (!usersWindow || usersWindow.closed)
+  if (!usersWindow || usersWindow.closed) {
+    h11.innerHTML = "";
     usersWindow = window.open(
       "src/email.html",
       "_blank",
       "width=750px,height=500,top=100px,left=300px",
     );
-  else {
-    h11.innerHTML = "Ya hay una ventana abierta.";
+  } else {
+    alert("Ya tienes la ventana abierta")
     usersWindow.focus();
   }
 };
+
+document.getElementById("moveWindow").onclick = function () {
+    if (usersWindow) {
+        usersWindow.moveTo(500,300);
+        usersWindow.focus();
+    }
+    else {
+        alert("La ventana ya se cerró")
+    }
+}
 
 /**WINDOW */
 
