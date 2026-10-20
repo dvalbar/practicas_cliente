@@ -1,9 +1,24 @@
 const h11 = document.getElementById("h11");
 
-/**WINDOW */
-h11.innerText += "Número de frames: " + window.frames.length;
-h11.innerText += "\nPrimer iframe: " + window.frames[0];
+let usersWindow = null;
 
+document.getElementById("sendEmail").onclick = function () {
+  if (!usersWindow || usersWindow.closed)
+    usersWindow = window.open(
+      "src/email.html",
+      "_blank",
+      "width=750px,height=500,top=100px,left=300px",
+    );
+  else {
+    h11.innerHTML = "Ya hay una ventana abierta.";
+    usersWindow.focus();
+  }
+};
+
+/**WINDOW */
+
+// h11.innerText += "Número de frames: " + window.frames.length;
+// h11.innerText += "\nPrimer iframe: " + window.frames[0];
 
 /**SCREEN */
 
