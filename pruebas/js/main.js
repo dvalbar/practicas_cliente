@@ -5,16 +5,44 @@ const email = document.getElementById("email");
 const password = document.getElementById("password");
 const login = document.getElementById("login");
 
+const RUTA = "http://127.0.0.1:5500";
 
-console.log(7*4)
+// info.innerHTML=location.hash;
+// console.log(location.hash);
+
+info.innerHTML = location.host;
+info.innerHTML = location.hostname;
+info.innerHTML = location.pathname;
+info.innerHTML = location.port;
+info.innerHTML = location.protocol;
+info.innerHTML = location.search; // todos los valores que se encuentran tras el simbolo ?
+info.innerHTML = location.origin;
+
+info.innerHTML = location.href; // importante tambien es de escritura y permite cambiar la url
+
+// location.href = "http://127.0.0.1:5500/pruebas/src/email.html"; // usar con cuidado
+
+document.getElementById("aMail").onclick = function () {
+  location.assign("http://127.0.0.1:5500/pruebas/src/email.html");
+};
+
+// primera opcion
+// problemas ruta completa, si cambia el puerto o el dominio ya no funcionara
+
+// document.getElementById("users").onclick = function () {
+//   location.assign("http://127.0.0.1:5500/pruebas/src/usuarios.html");
+// };
+
+// segunda opcion
+document.getElementById("users").onclick = function () {
+  location.assign(RUTA + "/pruebas/src/usuarios.html");
+};
+
+// console.log(7*4)
 
 // document.getElementById("history").onclick = () => {
 //   location.assign(history.forward);
 // }
-
-
-
-
 
 // Borra el body y empieza a escribir de nuevo
 // document.open();
@@ -24,69 +52,69 @@ console.log(7*4)
 // mal asi no se hace
 // document.body.innerHTML += "<h1>NUEVO ELEMENTO</h1>";
 
-console.log(document.exitFullscreen());
+// console.log(document.exitFullscreen());
 
-// cookies --> 2º Trimestre
-document.cookie = `login=${login.value}`;
-document.cookie = `mail=${email.value}`;
+// // cookies --> 2º Trimestre
+// document.cookie = `login=${login.value}`;
+// document.cookie = `mail=${email.value}`;
 
-info.innerHTML += document.readyState;
+// info.innerHTML += document.readyState;
 
-login.focus();
+// login.focus();
 
-console.log(document.getElementById("form1").children);
+// console.log(document.getElementById("form1").children);
 
-// console.log ("Index modificado el " + document.lastModified);
-// console.dir (document.forms[0].innerHTML += "<button>Enviar</button>");
+// // console.log ("Index modificado el " + document.lastModified);
+// // console.dir (document.forms[0].innerHTML += "<button>Enviar</button>");
 
-// console.dir((document.forms[3].innerHTML += "<button>Enviar</button>"));
+// // console.dir((document.forms[3].innerHTML += "<button>Enviar</button>"));
 
-// console.dir((document.forms[0]));
+// // console.dir((document.forms[0]));
 
-let usersWindow = null;
+// let usersWindow = null;
 
-document.getElementById("sendEmail").onclick = function () {
-  info.innerHTML = "";
-  try {
-    if (login.value == "") {
-      throw "Campo login no puede estar vacío";
-    } else if (password.value == "") {
-      throw "Campo password no puede estar vacío";
-    } else if (email.value == "") {
-      throw "Campo email no puede estar vacío";
-    } else {
-      if (!usersWindow || usersWindow.closed) {
-        h11.innerHTML = "";
-        usersWindow = window.open(
-          "src/email.html",
-          "_blank",
-          "width=750px,height=500,top=100px,left=300px",
-        );
-      } else {
-        info.innerHTML = "Ya tienes la ventana abierta";
-        usersWindow.focus();
-      }
+// document.getElementById("sendEmail").onclick = function () {
+//   info.innerHTML = "";
+//   try {
+//     if (login.value == "") {
+//       throw "Campo login no puede estar vacío";
+//     } else if (password.value == "") {
+//       throw "Campo password no puede estar vacío";
+//     } else if (email.value == "") {
+//       throw "Campo email no puede estar vacío";
+//     } else {
+//       if (!usersWindow || usersWindow.closed) {
+//         h11.innerHTML = "";
+//         usersWindow = window.open(
+//           "src/email.html",
+//           "_blank",
+//           "width=750px,height=500,top=100px,left=300px",
+//         );
+//       } else {
+//         info.innerHTML = "Ya tienes la ventana abierta";
+//         usersWindow.focus();
+//       }
 
-      // Pasamos login y email
-      usersWindow.onload = function () {
-        usersWindow.document.getElementById("nombre").value = login.value;
-        usersWindow.document.getElementById("mail").value = email.value;
-      };
-    }
-  } catch (err) {
-    info.innerHTML = "Error: " + err;
-  }
-};
+//       // Pasamos login y email
+//       usersWindow.onload = function () {
+//         usersWindow.document.getElementById("nombre").value = login.value;
+//         usersWindow.document.getElementById("mail").value = email.value;
+//       };
+//     }
+//   } catch (err) {
+//     info.innerHTML = "Error: " + err;
+//   }
+// };
 
-document.getElementById("moveWindow").onclick = function () {
-  if (usersWindow) {
-    usersWindow.moveTo(500, 300);
-    usersWindow.resizeTo(325, 425);
-    usersWindow.focus();
-  } else {
-    alert("La ventana ya se cerró");
-  }
-};
+// document.getElementById("moveWindow").onclick = function () {
+//   if (usersWindow) {
+//     usersWindow.moveTo(500, 300);
+//     usersWindow.resizeTo(325, 425);
+//     usersWindow.focus();
+//   } else {
+//     alert("La ventana ya se cerró");
+//   }
+// };
 
 /**WINDOW */
 
