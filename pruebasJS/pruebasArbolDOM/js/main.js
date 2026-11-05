@@ -8,6 +8,12 @@ const opcionesPares = Array.from(document.getElementsByClassName("pares"));
 const opcionesImpares = Array.from(document.getElementsByClassName("impares"));
 // =============================================================================
 
+let nuevoNodo = createNode("a","Registrarse","",[{ href: "#" },{ name: "menu" }]); // Hacer lo de pasarle un array de objetos para los atributos
+
+if (nuevoNodo) {
+  document.getElementById("nav1").appendChild(nuevoNodo);
+}
+
 // Botón para cambiar los colores de la lista de países
 const btnCambiarColores = document.getElementById("btnCambiarColores");
 
@@ -65,24 +71,71 @@ btnNuevoPais.addEventListener("click", () => {
   if (nuevoPais == "") {
     info.innerHTML = "Debe escribir un país";
   } else {
-    // Insertamos nodo a la lista
-    let nuevoNodoPais = document.createElement("li"); // Cada vez que se pulsa el botón
-                                                      // pilla la lista actualizada con
-                                                      // los países agregados
-    // Añadimos los estilos de la clase
-    if (listaPaisesActualizada.length % 2 == 0) { // Depende la longitud de la lista
-                                                  // averiguamos si el siguiente país sera par o impar
-      nuevoNodoPais.className = "impares";
-    }
-    else {
-      nuevoNodoPais.className = "pares";
-    }
+    // pilla la lista actualizada con
+    // los países agregados
 
-    let nuevoNodoPaisText = document.createTextNode(nuevoPais);
-    nuevoNodoPais.appendChild(nuevoNodoPaisText);
-    listaPaises.appendChild(nuevoNodoPais);
+    // Añadimos los estilos de la clase
+
+    // if (listaPaisesActualizada.length % 2 == 0) {
+    //   // Depende la longitud de la lista
+    //   // averiguamos si el siguiente país sera par o impar
+    //   nuevoNodoPais.className = "impares";
+    // } else {
+    //   nuevoNodoPais.className = "pares";
+    // }
+
+    let nuevoNodo = createNode("li", nuevoPais, "", 'background-color:blue; color:white');
+    if (nuevoNodo) {
+      document.getElementById("paises").appendChild(nuevoNodo);
+      info.innerHTML =
+        "<span style='color:lightgreen; background-color:green'>Se ha insertado el nodo</span>";
+    } else {
+      info.innerHTML =
+        "<span style='color:lightsalmon; background-color:red'>No se ha podido insertar el nodo</span>";
+    }
 
     document.getElementById("nuevoPais").value = ""; // Dejamos el input vacío para añadir otro país
   }
 });
 // ===================================================================================
+
+/**
+ * Función para crear nodos
+ *
+ * @param string tipo
+ * @param string texto
+ * @param string id
+ * @param string estilos
+ * @param array props
+ *
+ * @return node o null si no se ha podido crear el nodo
+ */
+function createNode(tipo, texto, id, estilos, props) {
+  let elemento = null;
+  if (tipo && typeof tipo === "string") {
+    elemento = document.createElement(tipo);
+  } else {
+    return null;
+  }
+
+  if (texto != "" && typeof texto === "string") {
+    let elementoText = document.createTextNode(texto);
+    elemento.appendChild(elementoText);
+  }
+
+  if (id != "") {
+    elemento.id = id;
+  }
+
+  if ((estilos) && (typeof estilos === "string") && (estilos != "")) {
+    elemento.style = estilos;
+  }
+
+  // if (props && typeof props === "object" && estilos != "") {
+  //   for (let element in props) {
+  //     elemento[element] = props[element];
+  //   }
+  // }
+
+  return elemento; // Devolvemos el nodo creado
+}
