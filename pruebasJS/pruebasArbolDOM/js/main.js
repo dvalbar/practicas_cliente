@@ -8,7 +8,10 @@ const opcionesPares = Array.from(document.getElementsByClassName("pares"));
 const opcionesImpares = Array.from(document.getElementsByClassName("impares"));
 // =============================================================================
 
-let nuevoNodo = createNode("a","Registrarse","",[{ href: "#" },{ name: "menu" }]); // Hacer lo de pasarle un array de objetos para los atributos
+let nuevoNodo = createNode("a", "Registrarse", "", [
+  { href: "#" },
+  { name: "menu" },
+]); // Hacer lo de pasarle un array de objetos para los atributos
 
 if (nuevoNodo) {
   document.getElementById("nav1").appendChild(nuevoNodo);
@@ -84,7 +87,12 @@ btnNuevoPais.addEventListener("click", () => {
     //   nuevoNodoPais.className = "pares";
     // }
 
-    let nuevoNodo = createNode("li", nuevoPais, "", 'background-color:blue; color:white');
+    let nuevoNodo = createNode(
+      "li",
+      nuevoPais,
+      "",
+      "background-color:blue; color:white",
+    );
     if (nuevoNodo) {
       document.getElementById("paises").appendChild(nuevoNodo);
       info.innerHTML =
@@ -97,6 +105,28 @@ btnNuevoPais.addEventListener("click", () => {
     document.getElementById("nuevoPais").value = ""; // Dejamos el input vacío para añadir otro país
   }
 });
+
+// =================
+// BOTÓN BORRAR PAIS
+// =================
+const btnBorraPais = document.getElementById("btnBorraPais");
+
+btnBorraPais.addEventListener("click", () => {
+  let arrayListaPais = document
+    .getElementById("paises")
+    .getElementsByTagName("li");
+
+  if (arrayListaPais.length > 3) {
+    arrayListaPais[2].remove(); // Esto no me guarda el nodo, no me permite mover nodos (Más rápido pero no guarda el nodo)
+  }
+
+  // if (arrayListaPais.length>3) {
+  //   let elemBorrado = arrayListaPais[2].parentNode.removeChild(arrayListaPais[2]);
+
+  //   console.log(elemBorrado); // Al borrar, ese nodo se puede guardar y nos permite mover nodos
+  // }
+});
+
 // ===================================================================================
 
 /**
@@ -127,7 +157,7 @@ function createNode(tipo, texto, id, estilos, props) {
     elemento.id = id;
   }
 
-  if ((estilos) && (typeof estilos === "string") && (estilos != "")) {
+  if (estilos && typeof estilos === "string" && estilos != "") {
     elemento.style = estilos;
   }
 
