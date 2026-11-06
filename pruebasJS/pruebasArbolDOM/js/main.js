@@ -1,7 +1,11 @@
 const info = document.getElementById("info");
 const listaPaises = document.getElementById("paises");
 const opcionesRadio = document.getElementsByName("edad");
+const sections1 = document.getElementsByClassName("section1");
 
+sections1[1]
+  .getElementsByTagName("img")[0]
+  .setAttribute("src", "./src/img/paisaje1.jpg"); // setAttribute
 // getElementsByClassName
 // =============================================================================
 const opcionesPares = Array.from(document.getElementsByClassName("pares"));
@@ -125,6 +129,56 @@ btnBorraPais.addEventListener("click", () => {
 
   //   console.log(elemBorrado); // Al borrar, ese nodo se puede guardar y nos permite mover nodos
   // }
+});
+
+let enlaceImagen = createNode(
+  "a",
+  "Cambiar imagen",
+  "",
+  "background-color:#1276af;border-radius:8px;color:white;padding:0.2%;margin:0.2%;cursor:pointer;",
+);
+
+let enlaceBorrarImagen = createNode(
+  "a",
+  "Borrar atributo",
+  "",
+  "background-color:#1276af;border-radius:8px;color:white;padding:0.2%;margin:0.2%;cursor:pointer;",
+);
+
+let inputBloquear = createNode("input", "", "inputBloquear");
+let botonBloquear = createNode("button", "Bloquear", "botonBloquear");
+
+// ========================
+//       NODO ENLACE
+// ========================
+if (sections1.length >= 2) {
+  sections1[1].appendChild(enlaceImagen);
+  sections1[1].appendChild(enlaceBorrarImagen);
+  sections1[2].appendChild(inputBloquear);
+  sections1[2].appendChild(botonBloquear);
+
+  enlaceImagen.onclick = function () {
+    sections1[1]
+      .getElementsByTagName("img")[0]
+      .setAttribute("src", "./src/img/paisaje2.jpg");
+  };
+
+  enlaceBorrarImagen.onclick = function () {
+    sections1[1].getElementsByTagName("img")[0].removeAttribute("src");
+  };
+}
+
+botonBloquear.addEventListener("click", () => {
+  if (botonBloquear.innerText == "Bloquear") {
+    botonBloquear.innerText = "Desbloquear";
+    inputBloquear.setAttribute("style","background-color:gray");
+    inputBloquear.setAttribute("readonly", "true");
+  }
+  else {
+    botonBloquear.innerText = "Bloquear";
+    inputBloquear.style.backgroundColor = "white";
+    inputBloquear.removeAttribute("readonly");
+  }
 });
 
 // ===================================================================================

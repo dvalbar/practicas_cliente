@@ -8,7 +8,8 @@
 html,
 body {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    /* Cambiado height por min-height para que la página crezca con el contenido */
     background-color: rgb(78, 168, 209);
 }
 
@@ -42,4 +43,32 @@ input {
     border: 1px solid aquamarine;
     border-radius: 8px;
     padding: 0.5%;
+}
+
+.section1 {
+    float: left;
+    width: 48%;
+    /* Subido ligeramente de 45% a 48% para aprovechar mejor el espacio */
+    min-height: 350px;
+    /* Cambiado height: 40% por min-height para evitar que los textos e inputs se salgan del recuadro */
+    border: 2px solid black;
+    border-radius: 15px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Añadido un fondo sutil opcional para que se distingan bien las secciones */
+}
+
+.section1 img {
+    width: 75%;
+    max-width: 90%;
+    height: auto;
+    /* Asegura que la imagen mantenga su proporción sin deformarse */
+}
+
+/* Añadido solo para limpiar los floats de las secciones anteriores y que la sección 3 no se monte encima */
+.section1:nth-of-type(3) {
+    clear: both;
+    width: 98%;
+    min-height: auto;
+    margin-top: 10px;
 }
