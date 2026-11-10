@@ -10,7 +10,7 @@ body {
     width: 100%;
     min-height: 100%;
     /* Cambiado height por min-height para que la página crezca con el contenido */
-    background-color: rgb(78, 168, 209);
+    /* background-color: rgb(78, 168, 209); */
 }
 
 jl div {
@@ -54,7 +54,7 @@ input {
     border: 2px solid black;
     border-radius: 15px;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.15);
+    /* background-color: rgba(255, 255, 255, 0.15); */
     /* Añadido un fondo sutil opcional para que se distingan bien las secciones */
 }
 
@@ -72,3 +72,20 @@ input {
     min-height: auto;
     margin-top: 10px;
 }
+
+.modoNoche {
+    background-color: #585655;
+    color: #EDEBEB;
+}
+
+.modoNoche a {
+    background-color: #8F84B0;
+    color: #EAE9F0;
+}
+
+.modoNoche button {
+    background-color: rgb(152, 151, 151);
+    color: #EAE9F0;
+}
+
+/* .modoClaro {} */

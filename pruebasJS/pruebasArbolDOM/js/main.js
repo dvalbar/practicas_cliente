@@ -98,7 +98,13 @@ btnNuevoPais.addEventListener("click", () => {
       "background-color:blue; color:white",
     );
     if (nuevoNodo) {
-      document.getElementById("paises").appendChild(nuevoNodo);
+      // document.getElementById("paises").appendChild(nuevoNodo);
+      let insertado = document
+        .getElementById("paises")
+        .insertBefore(nuevoNodo, listaPaisesActualizada[2]); // Devuelve el nodo
+      listaPaisesActualizada[2].before(nuevoNodo); // No devuelve el nodo
+      console.log("Insertado: " + insertado);
+
       info.innerHTML =
         "<span style='color:lightgreen; background-color:green'>Se ha insertado el nodo</span>";
     } else {
@@ -171,13 +177,46 @@ if (sections1.length >= 2) {
 botonBloquear.addEventListener("click", () => {
   if (botonBloquear.innerText == "Bloquear") {
     botonBloquear.innerText = "Desbloquear";
-    inputBloquear.setAttribute("style","background-color:gray");
+    inputBloquear.setAttribute("style", "background-color:gray");
     inputBloquear.setAttribute("readonly", "true");
-  }
-  else {
+  } else {
     botonBloquear.innerText = "Bloquear";
     inputBloquear.style.backgroundColor = "white";
     inputBloquear.removeAttribute("readonly");
+  }
+});
+
+// Btn Devuelve Impares
+document.getElementById("btnDevuelveImpares").onclick = function () {
+  let lista2 = document.querySelectorAll("#paises li");
+  let arrayImpares = new Array();
+
+  for (let i = 0; i < lista2.length; i += 2) {
+    arrayImpares.push(lista2[i].innerText);
+  }
+
+  console.dir(arrayImpares);
+};
+
+// ==================================================================================
+// MODO NOCHE MODO DIA
+document.getElementById("aModoNoche").addEventListener("click", function () {
+  const buttons = document.getElementsByTagName("button");
+  let buttonStyle = window.getComputedStyle(buttons[0]);
+
+  if (
+    buttonStyle.getPropertyValue("background-color") == "rgb(152, 151, 151)"
+  ) {
+    // Estoy en modo noche
+
+    this.innerText = "Cambiar a modo noche";
+    document.body.className = "";
+
+    // console.log("Color de los botones: " + buttonStyle.getPropertyValue("color"));
+    // console.log("Fondo de los botones: " + buttonStyle.getPropertyValue("background-color"));
+  } else {
+    document.body.className = "modoNoche";
+    this.innerText = "Cambiar a modo día";
   }
 });
 
