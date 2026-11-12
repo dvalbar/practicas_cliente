@@ -235,6 +235,17 @@ document.getElementById("btnSustituye").addEventListener("click", () => {
     }
 });
 
+// Clonar
+document.getElementById("btnClonar").addEventListener(("click"),()=> {
+  let section4 = document.getElementById("section4");
+  let clon = lista.cloneNode(true); // Poner a true (si no pones nada es false y no se ve nada)
+
+  console.log(clon);
+
+  clon.appendChild(createNode("li","Noruega","","")); // Añadir cosas a la lista clonada
+
+  section4.appendChild(clon); // Añadir toda la lista clonada
+});
 
 // ===================================================================================
 
