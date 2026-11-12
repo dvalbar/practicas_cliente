@@ -2,6 +2,7 @@ const info = document.getElementById("info");
 const listaPaises = document.getElementById("paises");
 const opcionesRadio = document.getElementsByName("edad");
 const sections1 = document.getElementsByClassName("section1");
+const lista = document.getElementById("paises");
 
 sections1[1]
   .getElementsByTagName("img")[0]
@@ -219,6 +220,21 @@ document.getElementById("aModoNoche").addEventListener("click", function () {
     this.innerText = "Cambiar a modo día";
   }
 });
+
+// Sustituir paises
+document.getElementById("btnSustituye").addEventListener("click", () => {
+    let textoNuevo = document.getElementById("nuevoPais").value;
+    let itemsLista = lista.getElementsByTagName("li"); // Obtenemos los <li> actuales
+
+    if (textoNuevo !== "" && itemsLista.length > 2) {
+        let paisSustituir = createNode("li", textoNuevo, "", "");
+        lista.replaceChild(paisSustituir, itemsLista[2]);
+        document.getElementById("nuevoPais").value = ""; // Limpiamos el input
+    } else {
+        info.innerHTML = "Escribe un país y asegúrate de que hay al menos 3 elementos.";
+    }
+});
+
 
 // ===================================================================================
 
