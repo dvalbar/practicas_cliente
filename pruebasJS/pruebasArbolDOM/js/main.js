@@ -13,6 +13,39 @@ const opcionesPares = Array.from(document.getElementsByClassName("pares"));
 const opcionesImpares = Array.from(document.getElementsByClassName("impares"));
 // =============================================================================
 
+// =======================================================================================================================
+/** Propiedades de los nodos */
+console.log("Atributos: " + lista.attributes[0].name + ". Valor atributo: " + lista.attributes[0].value);
+console.log("Atributos: " + lista.attributes[1].name + ". Valor atributo: " + lista.attributes[1].value);
+
+// for (const element of lista.childNodes) {
+//   console.log(element);
+// }
+
+// console.log("=============================");
+
+// for (const element of lista.children) {
+//   console.log(element);
+// }
+
+// console.dir(lista.children); // Hijos de la lista (todos los li de la lista)
+
+// console.log(lista.firstChild); // Devuelve la primera cosa que pille
+// console.log(lista.firstElementChild); // Devuelve el primer nodo
+
+// console.log(lista.childElementCount); // Cuantas etiquetas HTML tiene dentro
+
+// console.dir(lista.children[2].nextSibling); // Lo siguiente seria un comentario
+// console.dir(lista.children[2].nextElementSibling); // Si quiero el siguiente nodo es con esto
+
+// console.dir(lista.nodeName); // su etiqueta
+// console.dir(lista.localName); // su etiqueta
+// console.dir(lista.nodeType); // tipo nodo  // 1 elemento(es un nodo). 2 atributo. 3 texto
+
+// =======================================================================================================================
+
+
+// Crear nodos
 let nuevoNodo = createNode("a", "Registrarse", "", [
   { href: "#" },
   { name: "menu" },
