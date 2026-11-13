@@ -1,11 +1,337 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Práctica JS: Gestor de socios del Club Deportivo</title>
+    <title>Gestor de socios · Club Deportivo</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./src/css/styles.css">
+    <script src="./src/js/main.js" defer></script>
 </head>
+
 <body>
-    <h1>Gestor de socios del Club Deportivo</h1>
+
+    <!-- ========== 3.1 CABECERA ========== -->
+    <header class="cabecera">
+        <div class="cabecera-interior">
+            <div class="marca">
+                <span class="marca-icono" aria-hidden="true">CD</span>
+                <div>
+                    <h1>Club Deportivo</h1>
+                    <p class="marca-sub">Gestor de socios</p>
+                </div>
+            </div>
+
+            <!-- Fecha y hora juntas. El JS sustituye el contenido de #fecha-hoy y #hora-actual -->
+            <div class="reloj">
+                <span id="fecha-hoy" class="fecha-hoy">Miércoles, 28 de octubre de 2026</span>
+                <span class="separador" aria-hidden="true">·</span>
+                <span id="hora-actual" class="hora-actual">05:29:51</span>
+            </div>
+        </div>
+
+        <nav class="menu" aria-label="Secciones">
+            <a href="#listado">Listado</a>
+            <a href="#ficha">Ficha</a>
+            <a href="#alta">Alta</a>
+            <a href="#estadisticas">Estadísticas</a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+
+        <!-- ========== 3.2 LISTADO DE SOCIOS ========== -->
+        <section id="listado" class="tarjeta">
+            <div class="tarjeta-cabecera">
+                <div>
+                    <h2>Listado de socios</h2>
+                    <p id="contador-resultados" class="contador"></p>
+                </div>
+                <button type="button" id="btn-pantalla-completa" class="btn btn-secundario">
+                    Pantalla completa
+                </button>
+            </div>
+
+            <div class="controles">
+                <div class="campo">
+                    <label for="buscador">Buscar socio</label>
+                    <input type="search" id="buscador" placeholder="Nombre, apellidos o email" autocomplete="off">
+                    <span class="ayuda">La búsqueda comienza a partir de 2 caracteres.</span>
+                </div>
+
+                <div class="campo">
+                    <label for="filtro-actividad">Actividad</label>
+                    <select id="filtro-actividad">
+                        <option value="todas">Todas las actividades</option>
+                        <!-- El resto de opciones se generan con JS -->
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="orden">Ordenar por</label>
+                    <select id="orden">
+                        <option value="nombre">Nombre</option>
+                        <option value="apellidos">Apellidos</option>
+                        <option value="jovenes">Más jóvenes primero</option>
+                        <option value="antiguos">Más antiguos primero</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table id="tabla-socios">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Edad</th>
+                            <th scope="col">Actividades</th>
+                            <th scope="col" class="derecha">Cuota</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-socios-body">
+                        <!-- Filas generadas con JS. Estructura de una fila:
+            <tr>
+              <td><span class="avatar">LM</span><span class="id-socio">SOC-0001</span></td>
+              <td>Lucía Martín R.</td>
+              <td>lu**********@correo.es</td>
+              <td>31</td>
+              <td>natación, yoga</td>
+              <td class="derecha">35.00 €</td>
+            </tr>
+            -->
+                    </tbody>
+                </table>
+                <p id="sin-resultados" class="sin-resultados" hidden>No hay socios que coincidan</p>
+            </div>
+        </section>
+
+        <!-- ========== 3.3 FICHA DE SOCIO ========== -->
+        <section id="ficha" class="tarjeta">
+            <div class="tarjeta-cabecera">
+                <h2>Ficha de socio</h2>
+            </div>
+
+            <form id="form-ficha" class="formulario-linea" novalidate>
+                <div class="campo">
+                    <label for="ficha-dni">DNI del socio</label>
+                    <input type="text" id="ficha-dni" placeholder="12345678Z" maxlength="9" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primario">Consultar ficha</button>
+            </form>
+
+            <!-- Mensaje de error si el DNI no corresponde a ningún socio -->
+            <p id="ficha-error" class="mensaje-error" role="alert" hidden></p>
+
+            <!-- Resultado de la ficha -->
+            <article id="ficha-resultado" class="ficha" hidden>
+                <header class="ficha-cabecera">
+                    <h3 id="ficha-nombre"></h3>
+                    <span id="ficha-id" class="etiqueta"></span>
+                </header>
+
+                <dl class="ficha-datos">
+                    <div>
+                        <dt>DNI</dt>
+                        <dd id="ficha-dni-valor"></dd>
+                    </div>
+                    <div>
+                        <dt>Email</dt>
+                        <dd><span id="ficha-email"></span> <span class="secundario">(dominio: <span
+                                    id="ficha-dominio"></span>)</span></dd>
+                    </div>
+                    <div>
+                        <dt>Teléfono</dt>
+                        <dd id="ficha-telefono"></dd>
+                    </div>
+                    <div>
+                        <dt>Fecha de nacimiento</dt>
+                        <dd><span id="ficha-nacimiento"></span> · <span id="ficha-edad"></span></dd>
+                    </div>
+                    <div>
+                        <dt>Fecha de alta</dt>
+                        <dd><span id="ficha-alta"></span> <span class="secundario">(<span id="ficha-dias-club"></span>
+                                días en el club)</span></dd>
+                    </div>
+                    <div>
+                        <dt>Próximo cumpleaños</dt>
+                        <dd>Faltan <span id="ficha-dias-cumple"></span> días</dd>
+                    </div>
+                    <div>
+                        <dt>Actividades</dt>
+                        <dd id="ficha-actividades"></dd>
+                    </div>
+                    <div>
+                        <dt>Cuota mensual</dt>
+                        <dd id="ficha-cuota"></dd>
+                    </div>
+                </dl>
+            </article>
+        </section>
+
+        <!-- ========== 3.4 ALTA DE SOCIO ========== -->
+        <section id="alta" class="tarjeta">
+            <div class="tarjeta-cabecera">
+                <h2>Alta de socio</h2>
+            </div>
+
+            <!-- Aviso de alta correcta: Socio Ana dado de alta con id SOC-0009 -->
+            <p id="alta-exito" class="mensaje-exito" role="status" hidden></p>
+
+            <div class="info-alta">
+                <p>Fecha de alta: <strong id="alta-fecha-hoy"></strong> <span class="secundario">(se asigna
+                        automáticamente)</span></p>
+                <p>Id que se asignará: <strong id="alta-id-siguiente"></strong></p>
+            </div>
+
+            <form id="form-alta" novalidate>
+                <div class="rejilla">
+
+                    <div class="campo">
+                        <label for="alta-nombre">Nombre</label>
+                        <input type="text" id="alta-nombre" name="nombre" placeholder="María José" autocomplete="off">
+                        <span class="ayuda">Solo letras, un espacio entre palabras.</span>
+                        <span class="error-texto" id="error-nombre"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="alta-apellidos">Apellidos</label>
+                        <input type="text" id="alta-apellidos" name="apellidos" placeholder="Martín Ruiz"
+                            autocomplete="off">
+                        <span class="ayuda">Solo letras, un espacio entre palabras.</span>
+                        <span class="error-texto" id="error-apellidos"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="alta-dni">DNI</label>
+                        <input type="text" id="alta-dni" name="dni" placeholder="12345678Z" maxlength="9"
+                            autocomplete="off">
+                        <span class="ayuda">8 dígitos y la letra correcta.</span>
+                        <span class="error-texto" id="error-dni"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="alta-email">Email</label>
+                        <input type="text" id="alta-email" name="email" placeholder="ana@correo.es" autocomplete="off">
+                        <span class="ayuda">Formato usuario@dominio.extensión.</span>
+                        <span class="error-texto" id="error-email"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="alta-telefono">Teléfono</label>
+                        <input type="text" id="alta-telefono" name="telefono" placeholder="612 345 678"
+                            autocomplete="off">
+                        <span class="ayuda">9 dígitos que empiecen por 6, 7, 8 o 9.</span>
+                        <span class="error-texto" id="error-telefono"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="alta-nacimiento">Fecha de nacimiento</label>
+                        <input type="text" id="alta-nacimiento" name="nacimiento" placeholder="dd/mm/aaaa"
+                            maxlength="10" autocomplete="off">
+                        <span class="ayuda">Formato dd/mm/aaaa. Edad mínima: 14 años.</span>
+                        <span class="error-texto" id="error-nacimiento"></span>
+                    </div>
+
+                </div>
+
+                <fieldset class="campo-actividades" id="alta-actividades">
+                    <legend>Actividades</legend>
+                    <div class="checks">
+                        <label class="check"><input type="checkbox" name="actividades" value="natación">
+                            Natación</label>
+                        <label class="check"><input type="checkbox" name="actividades" value="yoga"> Yoga</label>
+                        <label class="check"><input type="checkbox" name="actividades" value="pádel"> Pádel</label>
+                        <label class="check"><input type="checkbox" name="actividades" value="musculación">
+                            Musculación</label>
+                        <label class="check"><input type="checkbox" name="actividades" value="spinning">
+                            Spinning</label>
+                        <label class="check"><input type="checkbox" name="actividades" value="pilates"> Pilates</label>
+                    </div>
+                    <span class="error-texto" id="error-actividades"></span>
+                </fieldset>
+
+                <div class="acciones">
+                    <button type="submit" class="btn btn-primario">Dar de alta</button>
+                    <button type="reset" class="btn btn-secundario">Limpiar</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ========== 3.5 ESTADÍSTICAS ========== -->
+        <section id="estadisticas" class="tarjeta">
+            <div class="tarjeta-cabecera">
+                <h2>Estadísticas</h2>
+            </div>
+
+            <div class="stats-rejilla">
+                <div class="stat">
+                    <span class="stat-titulo">Total de socios</span>
+                    <span class="stat-valor" id="stat-total"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">Ingresos mensuales</span>
+                    <span class="stat-valor" id="stat-ingresos"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">Cuota media</span>
+                    <span class="stat-valor" id="stat-cuota-media"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">Edad media</span>
+                    <span class="stat-valor" id="stat-edad-media"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">Edad mínima</span>
+                    <span class="stat-valor" id="stat-edad-min"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">Edad máxima</span>
+                    <span class="stat-valor" id="stat-edad-max"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">Actividad más popular</span>
+                    <span class="stat-valor" id="stat-popular-nombre"></span>
+                    <span class="stat-detalle"><span id="stat-popular-socios"></span> socios</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">¿Algún socio menor de edad?</span>
+                    <span class="stat-valor" id="stat-menores"></span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-titulo">¿Todos con al menos una actividad?</span>
+                    <span class="stat-valor" id="stat-todos-actividad"></span>
+                </div>
+            </div>
+
+            <div class="stats-listas">
+                <div class="stats-lista">
+                    <h3>Los 3 socios más veteranos</h3>
+                    <ol id="stat-veteranos"></ol>
+                </div>
+                <div class="stats-lista">
+                    <h3>Dominios de correo</h3>
+                    <ul id="stat-dominios"></ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="pie">
+        <p>Práctica JS · Gestor de socios del Club Deportivo</p>
+    </footer>
+
 </body>
+
 </html>
