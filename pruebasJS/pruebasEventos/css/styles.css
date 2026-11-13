@@ -10,3 +10,8 @@ body {
     width: 100%;
     min-height: 100%;
 }
+
+div h1 {
+    visibility: visible;
+    transition:  1s visibility;
+}
