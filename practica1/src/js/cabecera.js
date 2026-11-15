@@ -59,5 +59,5 @@ function muestraHora() {
 
 muestraFecha();
 muestraHora();
-setInterval(muestraFecha,1000);
+setInterval(muestraFecha, 1000);
 setInterval(muestraHora, 1000);
