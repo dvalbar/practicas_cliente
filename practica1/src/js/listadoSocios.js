@@ -3,17 +3,10 @@ const mensajeVacio = document.getElementById("sin-resultados"); // Mensaje si no
 
 const buscador = document.getElementById("buscador"); // Buscador de la página
 
-const filtroActividad = document.getElementById("filtro-actividad");
-const ordenSocios = document.getElementById("orden");
+const filtroActividad = document.getElementById("filtro-actividad"); // Actividades
+const ordenSocios = document.getElementById("orden"); // Orden
 
-const ACTIVIDADES = [
-  "natación",
-  "yoga",
-  "pádel",
-  "musculación",
-  "spinning",
-  "pilates",
-];
+const ACTIVIDADES = ["natación", "yoga", "pádel", "musculación", "spinning", "pilates"];
 
 const seccionListado = document.getElementById("listado");
 const btnPantallaCompleta = document.getElementById("btn-pantalla-completa");
@@ -77,9 +70,7 @@ function actualizarTabla() {
     let pasaBuscador = true; // Pasa el buscador
 
     if (texto.length >= 2) {
-      let datos = limpiarTexto(
-        socio.nombre + " " + socio.apellidos + " " + socio.email,
-      );
+      let datos = limpiarTexto(socio.nombre + " " + socio.apellidos + " " + socio.email);
       pasaBuscador = datos.includes(texto);
     }
 
@@ -146,13 +137,7 @@ function pintarTabla(lista) {
     let celdaId = createNode("td", "", "", "");
 
     // Círculo con iniciales y id del socio
-    let circulo = createNode(
-      "span",
-      iniciales(socio.nombre, socio.apellidos),
-      "",
-      "",
-      [{ class: "avatar" }],
-    ); // Circulo con las iniciales
+    let circulo = createNode("span", iniciales(socio.nombre, socio.apellidos), "", "", [{ class: "avatar" }]); // Circulo con las iniciales
     let textoId = createNode("span", socio.id, "", "", [{ class: "id-socio" }]); // ID del socio
 
     // Añadir datos a las celdas
@@ -160,31 +145,16 @@ function pintarTabla(lista) {
     celdaId.appendChild(textoId);
 
     // Nombre
-    let celdaNombre = createNode(
-      "td",
-      nombreCorto(socio.nombre, socio.apellidos),
-      "",
-      "",
-    );
+    let celdaNombre = createNode("td", nombreCorto(socio.nombre, socio.apellidos), "", "");
 
     // Email
     let celdaEmail = createNode("td", emailCifrado(socio.email), "", "");
 
     // Edad
-    let celdaEdad = createNode(
-      "td",
-      calcularEdadSocio(socio.fechaNacimiento),
-      "",
-      "",
-    );
+    let celdaEdad = createNode("td", calcularEdadSocio(socio.fechaNacimiento), "", "");
 
     // Actividades
-    let celdaActividades = createNode(
-      "td",
-      socio.actividades.join(", "),
-      "",
-      "",
-    );
+    let celdaActividades = createNode("td", socio.actividades.join(", "), "", "");
 
     // Cuota
     let celdaCuota = createNode("td", socio.cuota.toFixed(2) + " €", "", "");
@@ -205,7 +175,7 @@ function pintarTabla(lista) {
 /**
  * Pasa el texto a minúsculas y le quita las tildes
  * @param {string} texto
- * @returns {string} texto limpio
+ * @returns {string} Texto limpio
  */
 function limpiarTexto(texto) {
   return texto
@@ -257,12 +227,7 @@ function emailCifrado(email) {
     return arrayEmail[0] + "*@" + arrayEmail[1];
   }
 
-  return (
-    arrayEmail[0].slice(0, 2) +
-    "*".repeat(arrayEmail[0].length - 2) +
-    "@" +
-    arrayEmail[1]
-  );
+  return (arrayEmail[0].slice(0, 2) + "*".repeat(arrayEmail[0].length - 2) + "@" + arrayEmail[1]);
 }
 
 /**
@@ -290,9 +255,7 @@ function calcularEdadSocio(fechaNacimiento) {
  */
 function cargarActividades() {
   for (const actividad of ACTIVIDADES) {
-    let opcion = createNode("option", actividad, "", "", [
-      { value: actividad },
-    ]);
+    let opcion = createNode("option", actividad, "", "", [{ value: actividad }]);
     filtroActividad.appendChild(opcion);
   }
 }

@@ -1,47 +1,26 @@
-const formFicha = document.getElementById("form-ficha");
-const inputDniFicha = document.getElementById("ficha-dni");
+const formFicha = document.getElementById("form-ficha"); // El formulario donde se escribe el DNI
+const inputDniFicha = document.getElementById("ficha-dni"); // El campo donde se escribe el DNI
 
-const fichaError = document.getElementById("ficha-error");
-const fichaResultado = document.getElementById("ficha-resultado");
+const fichaError = document.getElementById("ficha-error"); // Mensaje rojo si el DNI no existe
+const fichaResultado = document.getElementById("ficha-resultado"); // Cuadro entero de la ficha (oculto hasta que se encuentra un socio)
 
-const fichaNombre = document.getElementById("ficha-nombre");
-const fichaId = document.getElementById("ficha-id");
-const fichaDniValor = document.getElementById("ficha-dni-valor");
-const fichaEmail = document.getElementById("ficha-email");
-const fichaActividades = document.getElementById("ficha-actividades");
-const fichaCuota = document.getElementById("ficha-cuota");
+const fichaNombre = document.getElementById("ficha-nombre"); // Cabecera: nombre completo
+const fichaId = document.getElementById("ficha-id"); // Cabecera: id del socio (SOC-0001)
+const fichaDniValor = document.getElementById("ficha-dni-valor"); // DNI
+const fichaEmail = document.getElementById("ficha-email"); // Email completo
+const fichaActividades = document.getElementById("ficha-actividades"); // Actividades, separadas por comas
+const fichaCuota = document.getElementById("ficha-cuota"); // Cuota mensual con dos decimales y €
 
-const fichaDominio = document.getElementById("ficha-dominio");
-const fichaTelefono = document.getElementById("ficha-telefono");
-const fichaNacimiento = document.getElementById("ficha-nacimiento");
-const fichaEdad = document.getElementById("ficha-edad");
-const fichaAlta = document.getElementById("ficha-alta");
-const fichaDiasClub = document.getElementById("ficha-dias-club");
-const fichaDiasCumple = document.getElementById("ficha-dias-cumple");
+const fichaDominio = document.getElementById("ficha-dominio"); // Dominio del email (lo que va tras la @)
+const fichaTelefono = document.getElementById("ficha-telefono"); // Teléfono agrupado de 3 en 3
+const fichaNacimiento = document.getElementById("ficha-nacimiento"); // Fecha de nacimiento escrita en texto
+const fichaEdad = document.getElementById("ficha-edad"); // Años cumplidos
+const fichaAlta = document.getElementById("ficha-alta"); // Fecha de alta en formato dd/mm/aaaa
+const fichaDiasClub = document.getElementById("ficha-dias-club"); // Días que lleva el socio en el club
+const fichaDiasCumple = document.getElementById("ficha-dias-cumple"); // Días que faltan para su próximo cumpleaños
 
-const DIAS_SOCIO = [
-  "Domingo",
-  "Lunes",
-  "Martes",
-  "Miércoles",
-  "Jueves",
-  "Viernes",
-  "Sábado",
-];
-const MESES_SOCIO = [
-  "enero",
-  "febrero",
-  "marzo",
-  "abril",
-  "mayo",
-  "junio",
-  "julio",
-  "agosto",
-  "septiembre",
-  "octubre",
-  "noviembre",
-  "diciembre",
-];
+const DIAS_SOCIO = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const MESES_SOCIO = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
 formFicha.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -50,7 +29,7 @@ formFicha.addEventListener("submit", (e) => {
   fichaError.hidden = true;
   fichaResultado.hidden = true;
 
-  let dni = inputDniFicha.value.trim().toUpperCase();
+  let dni = inputDniFicha.value.trim().toUpperCase(); // DNI escrito en el campo
   let socioEncontrado = null;
 
   for (const socio of socios) {

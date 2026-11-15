@@ -1,5 +1,5 @@
-const fechaHoy = document.getElementById("fecha-hoy");
-const horaActual = document.getElementById("hora-actual");
+const fechaHoy = document.getElementById("fecha-hoy"); // Fecha
+const horaActual = document.getElementById("hora-actual"); // Hora
 
 const DIAS = [
   "Domingo",

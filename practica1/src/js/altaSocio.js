@@ -39,6 +39,7 @@ formAlta.addEventListener("reset", () => {
   limpiarErrores();
 });
 
+// Botón dar de alta
 formAlta.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -75,18 +76,10 @@ formAlta.addEventListener("submit", (e) => {
   if (marcarError(altaTelefono, errorTelefono, validarTelefono(telefono))) {
     errores++;
   }
-  if (
-    marcarError(altaNacimiento, errorNacimiento, validarNacimiento(nacimiento))
-  ) {
+  if (marcarError(altaNacimiento, errorNacimiento, validarNacimiento(nacimiento))) {
     errores++;
   }
-  if (
-    marcarError(
-      altaActividades,
-      errorActividades,
-      validarActividades(actividadesMarcadas),
-    )
-  ) {
+  if (marcarError(altaActividades, errorActividades, validarActividades(actividadesMarcadas))) {
     errores++;
   }
 
@@ -114,14 +107,14 @@ formAlta.addEventListener("submit", (e) => {
   formAlta.reset();
 
   // Aviso verde: Socio Ana dado de alta con id SOC-0013
-  altaExito.innerText =
-    "Socio " + nuevoSocio.nombre + " dado de alta con id " + nuevoSocio.id;
+  altaExito.innerText = "Socio " + nuevoSocio.nombre + " dado de alta con id " + nuevoSocio.id;
   altaExito.hidden = false;
 
   // Actualizar la pantalla con el socio nuevo
   mostrarInfoAlta();
   actualizarTabla();
   actualizarEstadisticas();
+
 });
 
 /**
@@ -154,29 +147,14 @@ function marcarError(campo, spanError, mensaje) {
  */
 function limpiarErrores() {
   // Dos arrays con todos los campos y todos sus spans de error
-  let campos = [
-    altaNombre,
-    altaApellidos,
-    altaDni,
-    altaEmail,
-    altaTelefono,
-    altaNacimiento,
-    altaActividades,
-  ];
-  let spans = [
-    errorNombre,
-    errorApellidos,
-    errorDni,
-    errorEmail,
-    errorTelefono,
-    errorNacimiento,
-    errorActividades,
-  ];
+  let campos = [altaNombre, altaApellidos, altaDni, altaEmail, altaTelefono, altaNacimiento, altaActividades];
+  let spans = [errorNombre, errorApellidos, errorDni, errorEmail, errorTelefono, errorNacimiento, errorActividades];
 
   // Quitar la clase "error"
   for (const campo of campos) {
     campo.classList.remove("error");
   }
+
   // Quitar el texto de error
   for (const span of spans) {
     span.innerText = "";
@@ -204,10 +182,12 @@ function validarNombre(texto) {
   if (texto == "") {
     return "Este campo es obligatorio";
   }
+
   // .test devuelve true si el texto cumple la expresión; con ! lo negamos
   if (!expresion.test(texto)) {
     return "Solo letras y un único espacio entre palabras";
   }
+
   return "";
 }
 
@@ -217,6 +197,7 @@ function validarNombre(texto) {
  * @returns {string} Mensaje de error, o "" si es correcto
  */
 function validarDni(dni) {
+
   // Formato: 8 dígitos (\d{8}) y una letra mayúscula ([A-Z])
   if (!/^\d{8}[A-Z]$/.test(dni)) {
     return "El DNI debe tener 8 dígitos y una letra";
@@ -226,14 +207,13 @@ function validarDni(dni) {
   // 1. slice(0, 8) coge los 8 primeros caracteres (los números)
   // 2. % 23 es el resto de dividir entre 23 (da un número de 0 a 22)
   // 3. charAt coge la letra que ocupa esa posición en LETRAS_DNI
+
   let numero = Number(dni.slice(0, 8));
   let letraCorrecta = LETRAS_DNI.charAt(numero % 23);
 
   // dni.charAt(8) es la letra que ha escrito el usuario (la novena)
   if (dni.charAt(8) != letraCorrecta) {
-    return (
-      "La letra del DNI no es correcta (debería ser " + letraCorrecta + ")"
-    );
+    return ("La letra del DNI no es correcta (debería ser " + letraCorrecta + ")");
   }
 
   // Comprobar que ningún socio tiene ya ese DNI
@@ -257,9 +237,11 @@ function validarEmail(email) {
   // [^\s@]+   uno o más caracteres que no sean espacio ni @  (dominio)
   // \.        un punto
   // [^\s@]{2,} dos o más caracteres  (extensión: es, com...)
+
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
     return "El email debe tener el formato usuario@dominio.es";
   }
+
   return "";
 }
 
@@ -277,6 +259,7 @@ function validarTelefono(telefono) {
   if (!/^[6-9]\d{8}$/.test(sinEspacios)) {
     return "El teléfono debe tener 9 dígitos y empezar por 6, 7, 8 o 9";
   }
+
   return "";
 }
 
@@ -289,6 +272,7 @@ function nacimientoAISO(fecha) {
   // split("/") parte "05/06/2000" en ["05", "06", "2000"]
   // y las montamos al revés: año-mes-día
   let partes = fecha.split("/");
+
   return partes[2] + "-" + partes[1] + "-" + partes[0];
 }
 
@@ -328,7 +312,7 @@ function validarNacimiento(fecha) {
     return "La fecha no puede ser futura";
   }
 
-  // Edad mínima: calcularEdadSocio está en otro archivo y espera aaaa-mm-dd
+  // Edad mínima
   if (calcularEdadSocio(nacimientoAISO(fecha)) < EDAD_MINIMA) {
     return "La edad mínima es de " + EDAD_MINIMA + " años";
   }
