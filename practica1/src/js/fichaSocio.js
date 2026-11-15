@@ -94,7 +94,12 @@ function mostrarFichaSocio(socio) {
   let dominioEmail = socio.email.split("@");
   fichaDominio.innerText = dominioEmail[1];
 
-  fichaTelefono.innerText = socio.telefono.slice(0, 3) + " " + socio.telefono.slice(3, 6) + " " + socio.telefono.slice(6, 9);
+  fichaTelefono.innerText =
+    socio.telefono.slice(0, 3) +
+    " " +
+    socio.telefono.slice(3, 6) +
+    " " +
+    socio.telefono.slice(6, 9);
 
   fichaNacimiento.innerText = fechaEnTexto(socio.fechaNacimiento);
 
@@ -194,7 +199,7 @@ function fechaEnTexto(fechaNacimiento) {
 
 /**
  * Función que muestra la fecha con el formato dd/mm/aaaa
- * @param {string} fechaAlta 
+ * @param {string} fechaAlta
  * @returns La fecha con el siguiente formato dd/mm/aaaa
  */
 function fechaCorta(fechaAlta) {
