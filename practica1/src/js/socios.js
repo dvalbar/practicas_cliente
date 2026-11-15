@@ -1,8 +1,4 @@
-// ==========================================================
-// Datos de partida: socios del Club Deportivo
-// Actividades del club: natación, yoga, pádel, musculación,
-// spinning y pilates.
-// ==========================================================
+// Array con todos los socios de la página
 
 const socios = [
   {
