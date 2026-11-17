@@ -8,6 +8,7 @@ const altaDni = document.getElementById("alta-dni");
 const altaEmail = document.getElementById("alta-email");
 const altaTelefono = document.getElementById("alta-telefono");
 const altaNacimiento = document.getElementById("alta-nacimiento");
+const nuevaCuota = document.getElementById("nueva-cuota");
 const altaActividades = document.getElementById("alta-actividades");
 
 const checksActividades = document.getElementsByName("actividades"); // Checkboxes
@@ -19,6 +20,7 @@ const errorDni = document.getElementById("error-dni");
 const errorEmail = document.getElementById("error-email");
 const errorTelefono = document.getElementById("error-telefono");
 const errorNacimiento = document.getElementById("error-nacimiento");
+const errorNuevaCuota = document.getElementById("error-nuevaCuota");
 const errorActividades = document.getElementById("error-actividades");
 
 // Datos informativos que se enseñan encima del formulario
@@ -29,7 +31,7 @@ const altaIdSiguiente = document.getElementById("alta-id-siguiente");
 // letra es la que ocupa la posición del resto
 const LETRAS_DNI = "TRWAGMYFPDXBNJZSQVHLCKE";
 const EDAD_MINIMA = 14; // Edad mínima para ser socio
-const PRECIO_ACTIVIDAD = 10; // Euros al mes por cada actividad
+// const PRECIO_ACTIVIDAD = 10; // Euros al mes por cada actividad
 
 // Al cargar la página, rellenar la fecha de hoy y el id siguiente
 mostrarInfoAlta();
@@ -49,6 +51,7 @@ formAlta.addEventListener("submit", (e) => {
   let email = altaEmail.value.trim();
   let telefono = altaTelefono.value.trim();
   let nacimiento = altaNacimiento.value.trim();
+  let cuota = Number(nuevaCuota.value.trim());
 
   let actividadesMarcadas = [];
   for (const check of checksActividades) {
@@ -76,10 +79,21 @@ formAlta.addEventListener("submit", (e) => {
   if (marcarError(altaTelefono, errorTelefono, validarTelefono(telefono))) {
     errores++;
   }
-  if (marcarError(altaNacimiento, errorNacimiento, validarNacimiento(nacimiento))) {
+  if (
+    marcarError(altaNacimiento, errorNacimiento, validarNacimiento(nacimiento))
+  ) {
     errores++;
   }
-  if (marcarError(altaActividades, errorActividades, validarActividades(actividadesMarcadas))) {
+  if (marcarError(nuevaCuota, errorNuevaCuota, validarCuota(cuota))) {
+    errores++;
+  }
+  if (
+    marcarError(
+      altaActividades,
+      errorActividades,
+      validarActividades(actividadesMarcadas),
+    )
+  ) {
     errores++;
   }
 
@@ -98,7 +112,7 @@ formAlta.addEventListener("submit", (e) => {
     fechaNacimiento: nacimientoAISO(nacimiento),
     fechaAlta: fechaHoyISO(),
     actividades: actividadesMarcadas,
-    cuota: actividadesMarcadas.length * PRECIO_ACTIVIDAD,
+    cuota: cuota,
   };
 
   socios.push(nuevoSocio); // Añadir nuevo socio a mi array de socios
@@ -107,14 +121,14 @@ formAlta.addEventListener("submit", (e) => {
   formAlta.reset();
 
   // Aviso verde: Socio Ana dado de alta con id SOC-0013
-  altaExito.innerText = "Socio " + nuevoSocio.nombre + " dado de alta con id " + nuevoSocio.id;
+  altaExito.innerText =
+    "Socio " + nuevoSocio.nombre + " dado de alta con id " + nuevoSocio.id;
   altaExito.hidden = false;
 
   // Actualizar la pantalla con el socio nuevo
   mostrarInfoAlta();
   actualizarTabla();
   actualizarEstadisticas();
-
 });
 
 /**
@@ -147,8 +161,24 @@ function marcarError(campo, spanError, mensaje) {
  */
 function limpiarErrores() {
   // Dos arrays con todos los campos y todos sus spans de error
-  let campos = [altaNombre, altaApellidos, altaDni, altaEmail, altaTelefono, altaNacimiento, altaActividades];
-  let spans = [errorNombre, errorApellidos, errorDni, errorEmail, errorTelefono, errorNacimiento, errorActividades];
+  let campos = [
+    altaNombre,
+    altaApellidos,
+    altaDni,
+    altaEmail,
+    altaTelefono,
+    altaNacimiento,
+    altaActividades,
+  ];
+  let spans = [
+    errorNombre,
+    errorApellidos,
+    errorDni,
+    errorEmail,
+    errorTelefono,
+    errorNacimiento,
+    errorActividades,
+  ];
 
   // Quitar la clase "error"
   for (const campo of campos) {
@@ -197,7 +227,6 @@ function validarNombre(texto) {
  * @returns {string} Mensaje de error, o "" si es correcto
  */
 function validarDni(dni) {
-
   // Formato: 8 dígitos (\d{8}) y una letra mayúscula ([A-Z])
   if (!/^\d{8}[A-Z]$/.test(dni)) {
     return "El DNI debe tener 8 dígitos y una letra";
@@ -213,7 +242,9 @@ function validarDni(dni) {
 
   // dni.charAt(8) es la letra que ha escrito el usuario (la novena)
   if (dni.charAt(8) != letraCorrecta) {
-    return ("La letra del DNI no es correcta (debería ser " + letraCorrecta + ")");
+    return (
+      "La letra del DNI no es correcta (debería ser " + letraCorrecta + ")"
+    );
   }
 
   // Comprobar que ningún socio tiene ya ese DNI
@@ -387,4 +418,17 @@ function ponerMayusculas(texto) {
 function mostrarInfoAlta() {
   altaFechaHoy.innerText = fechaCorta(fechaHoyISO());
   altaIdSiguiente.innerText = siguienteId();
+}
+
+/**
+ * Valida la cuota
+ * @param {number} cuota
+ * @returns {string} Mensaje de error, o "" si es correcto
+ */
+function validarCuota(cuota) {
+  if (!/^\d{1,3}[.,]\d{1,2}$/.test(cuota)) {
+    return "La cuota no es válida";
+  }
+
+  return "";
 }

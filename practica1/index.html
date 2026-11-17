@@ -80,6 +80,7 @@
                         <option value="apellidos">Apellidos</option>
                         <option value="jovenes">Más jóvenes primero</option>
                         <option value="antiguos">Más antiguos primero</option>
+                        <option value="cuota">Cuota más alta primero</option>
                     </select>
                 </div>
             </div>
@@ -92,6 +93,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Email</th>
                             <th scope="col">Edad</th>
+                            <th scope="col">Antigüedad</th>
                             <th scope="col">Actividades</th>
                             <th scope="col" class="derecha">Cuota</th>
                         </tr>
@@ -172,6 +174,10 @@
                         <dt>Cuota mensual</dt>
                         <dd id="ficha-cuota"></dd>
                     </div>
+                    <div>
+                        <dt>Curiosidad</dt>
+                        <dd id="ficha-curiosidad"></dd>
+                    </div>
                 </dl>
             </article>
         </section>
@@ -238,6 +244,15 @@
                             maxlength="10" autocomplete="off">
                         <span class="ayuda">Formato dd/mm/aaaa. Edad mínima: 14 años.</span>
                         <span class="error-texto" id="error-nacimiento"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="nueva-cuota">Cuota</label>
+                        <input type="text" id="nueva-cuota" name="nuevaCuota" placeholder="000.00" maxlength="6"
+                            autocomplete="off">
+                        <span class="ayuda">Cuota máxima de hasta 3 cifras, con coma o punto y como máximo 2
+                            decimales</span>
+                        <span class="error-texto" id="error-nuevaCuota"></span>
                     </div>
 
                 </div>

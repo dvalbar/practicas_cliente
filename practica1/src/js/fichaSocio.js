@@ -10,6 +10,7 @@ const fichaDniValor = document.getElementById("ficha-dni-valor"); // DNI
 const fichaEmail = document.getElementById("ficha-email"); // Email completo
 const fichaActividades = document.getElementById("ficha-actividades"); // Actividades, separadas por comas
 const fichaCuota = document.getElementById("ficha-cuota"); // Cuota mensual con dos decimales y €
+const fichaCuriosidad = document.getElementById("ficha-curiosidad"); // Curiosidad que diga número de vocales del socio (sin distinguir tildes)
 
 const fichaDominio = document.getElementById("ficha-dominio"); // Dominio del email (lo que va tras la @)
 const fichaTelefono = document.getElementById("ficha-telefono"); // Teléfono agrupado de 3 en 3
@@ -19,8 +20,29 @@ const fichaAlta = document.getElementById("ficha-alta"); // Fecha de alta en for
 const fichaDiasClub = document.getElementById("ficha-dias-club"); // Días que lleva el socio en el club
 const fichaDiasCumple = document.getElementById("ficha-dias-cumple"); // Días que faltan para su próximo cumpleaños
 
-const DIAS_SOCIO = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-const MESES_SOCIO = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+const DIAS_SOCIO = [
+  "Domingo",
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+];
+const MESES_SOCIO = [
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
+];
 
 formFicha.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -69,6 +91,8 @@ function mostrarFichaSocio(socio) {
   fichaActividades.innerText = socio.actividades.join(", ");
 
   fichaCuota.innerText = socio.cuota.toFixed(2) + " €";
+
+  fichaCuriosidad.innerText = curiosidadSocio(socio.nombre, socio.apellidos); // Número de vocales del socio
 
   let dominioEmail = socio.email.split("@");
   fichaDominio.innerText = dominioEmail[1];
@@ -184,4 +208,43 @@ function fechaEnTexto(fechaNacimiento) {
 function fechaCorta(fechaAlta) {
   let fechaSeparada = fechaAlta.split("-");
   return fechaSeparada[2] + "/" + fechaSeparada[1] + "/" + fechaSeparada[0];
+}
+
+/**
+ * Función que cuenta el número de vocales del nombre y apellido del socio
+ * @param {string} nombre
+ * @param {string} apellido
+ * @returns Cadena con el número de vocales del nombre y apellido del socio
+ */
+function curiosidadSocio(nombre, apellido) {
+  let expresion = /[aeiou]/gi;
+  let numVocales = 0;
+
+  let nombreLimpio = limpiarTexto(nombre);
+  let arrayApellido = apellido.split(" ");
+
+  let apellidoLimpio1 = limpiarTexto(arrayApellido[0]);
+
+  for (let index = 0; index < nombreLimpio.length; index++) {
+    if (expresion.test(nombreLimpio.length[index])) {
+      numVocales++;
+    }
+  }
+
+  for (let index = 0; index < apellidoLimpio1.length; index++) {
+    if (expresion.test(apellidoLimpio1.length[index])) {
+      numVocales++;
+    }
+  }
+
+  if (arrayApellido.length > 1) {
+    let apellidoLimpio2 = limpiarTexto(arrayApellido[1]);
+    for (let index = 0; index < apellidoLimpio2.length; index++) {
+      if (expresion.test(apellidoLimpio2.length[index])) {
+        numVocales++;
+      }
+    }
+  }
+
+  return "El socio tiene " + numVocales + " vocales en su nombre y apellido";
 }

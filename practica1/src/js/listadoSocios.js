@@ -6,7 +6,14 @@ const buscador = document.getElementById("buscador"); // Buscador de la página
 const filtroActividad = document.getElementById("filtro-actividad"); // Actividades
 const ordenSocios = document.getElementById("orden"); // Orden
 
-const ACTIVIDADES = ["natación", "yoga", "pádel", "musculación", "spinning", "pilates"];
+const ACTIVIDADES = [
+  "natación",
+  "yoga",
+  "pádel",
+  "musculación",
+  "spinning",
+  "pilates",
+];
 
 const seccionListado = document.getElementById("listado");
 const btnPantallaCompleta = document.getElementById("btn-pantalla-completa");
@@ -70,7 +77,9 @@ function actualizarTabla() {
     let pasaBuscador = true; // Pasa el buscador
 
     if (texto.length >= 2) {
-      let datos = limpiarTexto(socio.nombre + " " + socio.apellidos + " " + socio.email);
+      let datos = limpiarTexto(
+        socio.nombre + " " + socio.apellidos + " " + socio.email,
+      );
       pasaBuscador = datos.includes(texto);
     }
 
@@ -109,6 +118,9 @@ function actualizarTabla() {
         a.fechaNacimiento.localeCompare(b.fechaNacimiento),
       );
       break;
+    case "cuota": // Cuota más alta primero
+      resultado.sort((a, b) => Number(b.cuota) - Number(a.cuota));
+      break;
   }
 
   pintarTabla(resultado); // Muestra la tabla con los socios que haya encontrado segun los filtros y busquedas
@@ -137,7 +149,13 @@ function pintarTabla(lista) {
     let celdaId = createNode("td", "", "", "");
 
     // Círculo con iniciales y id del socio
-    let circulo = createNode("span", iniciales(socio.nombre, socio.apellidos), "", "", [{ class: "avatar" }]); // Circulo con las iniciales
+    let circulo = createNode(
+      "span",
+      iniciales(socio.nombre, socio.apellidos),
+      "",
+      "",
+      [{ class: "avatar" }],
+    ); // Circulo con las iniciales
     let textoId = createNode("span", socio.id, "", "", [{ class: "id-socio" }]); // ID del socio
 
     // Añadir datos a las celdas
@@ -145,16 +163,39 @@ function pintarTabla(lista) {
     celdaId.appendChild(textoId);
 
     // Nombre
-    let celdaNombre = createNode("td", nombreCorto(socio.nombre, socio.apellidos), "", "");
+    let celdaNombre = createNode(
+      "td",
+      nombreCorto(socio.nombre, socio.apellidos),
+      "",
+      "",
+    );
 
     // Email
     let celdaEmail = createNode("td", emailCifrado(socio.email), "", "");
 
     // Edad
-    let celdaEdad = createNode("td", calcularEdadSocio(socio.fechaNacimiento), "", "");
+    let celdaEdad = createNode(
+      "td",
+      calcularEdadSocio(socio.fechaNacimiento),
+      "",
+      "",
+    );
+
+    // Antiguedad
+    let celdaAntiguedad = createNode(
+      "td",
+      antiguedadEnAnios(socio.fechaAlta),
+      "",
+      "",
+    );
 
     // Actividades
-    let celdaActividades = createNode("td", socio.actividades.join(", "), "", "");
+    let celdaActividades = createNode(
+      "td",
+      socio.actividades.join(", "),
+      "",
+      "",
+    );
 
     // Cuota
     let celdaCuota = createNode("td", socio.cuota.toFixed(2) + " €", "", "");
@@ -164,6 +205,7 @@ function pintarTabla(lista) {
     filaTablaSocio.appendChild(celdaNombre);
     filaTablaSocio.appendChild(celdaEmail);
     filaTablaSocio.appendChild(celdaEdad);
+    filaTablaSocio.appendChild(celdaAntiguedad);
     filaTablaSocio.appendChild(celdaActividades);
     filaTablaSocio.appendChild(celdaCuota);
 
@@ -227,7 +269,12 @@ function emailCifrado(email) {
     return arrayEmail[0] + "*@" + arrayEmail[1];
   }
 
-  return (arrayEmail[0].slice(0, 2) + "*".repeat(arrayEmail[0].length - 2) + "@" + arrayEmail[1]);
+  return (
+    arrayEmail[0].slice(0, 2) +
+    "*".repeat(arrayEmail[0].length - 2) +
+    "@" +
+    arrayEmail[1]
+  );
 }
 
 /**
@@ -255,7 +302,9 @@ function calcularEdadSocio(fechaNacimiento) {
  */
 function cargarActividades() {
   for (const actividad of ACTIVIDADES) {
-    let opcion = createNode("option", actividad, "", "", [{ value: actividad }]);
+    let opcion = createNode("option", actividad, "", "", [
+      { value: actividad },
+    ]);
     filtroActividad.appendChild(opcion);
   }
 }
@@ -302,4 +351,27 @@ function createNode(tipo, texto, id, estilos, props) {
   }
 
   return elemento;
+}
+
+/**
+ * Función que calcula la antigüedad del socio en años y meses
+ * @param {string} fechaAlta
+ * @returns la antigüedad del socio en años y meses
+ */
+function antiguedadEnAnios(fechaAlta) {
+  const hoy = new Date();
+  const alta = new Date(fechaAlta);
+
+  let anios = hoy.getFullYear() - alta.getFullYear();
+  let meses = hoy.getMonth() - alta.getMonth();
+
+  if (anios === 1) {
+    return anios + " año y " + meses + " meses";
+  } else if (meses === 1) {
+    return anios + " años y " + meses + " mes";
+  } else if (anios === 1 && meses === 1) {
+    return anios + " año y " + meses + " mes";
+  } else {
+    return anios + " años y " + meses + " meses";
+  }
 }
